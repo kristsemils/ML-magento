@@ -9,7 +9,9 @@ declare(strict_types=1);
 
 namespace Magebit\PageListWidget\Block\Widget;
 
+use Exception;
 use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template\Context;
 use Magento\Widget\Block\BlockInterface;
 use Magento\Cms\Model\ResourceModel\Page\CollectionFactory;
 use Magento\Cms\Model\ResourceModel\Page\Collection;
@@ -30,19 +32,17 @@ class PageList extends Template implements BlockInterface
     /**
      * PageList constructor.
      *
-     * @param Template\Context $context
+     * @param Context $context
      * @param CollectionFactory $pageCollectionFactory
      * @param LoggerInterface $logger
      * @param array $data
      */
     public function __construct(
-        private readonly Template\Context $context,
-        private CollectionFactory $pageCollectionFactory,
-        private LoggerInterface $logger,
+        private readonly Context $context,
+        private readonly CollectionFactory $pageCollectionFactory,
+        private readonly LoggerInterface $logger,
         array $data = []
     ) {
-        $this->pageCollectionFactory = $pageCollectionFactory;
-        $this->logger = $logger;
         parent::__construct($context, $data);
     }
 
@@ -60,6 +60,7 @@ class PageList extends Template implements BlockInterface
      * Get the collection of active pages based on display mode and selected pages.
      *
      * @return Collection
+     * @throws Exception
      */
     public function getPages(): Collection
     {
@@ -71,19 +72,16 @@ class PageList extends Template implements BlockInterface
             $displayMode = $this->getData('display_mode');
             $selectedPages = $this->getSelectedPages();
 
-            $this->logger->debug('Display Mode: ' . $displayMode);
-            $this->logger->debug('Selected Pages: ' . print_r($selectedPages, true));
-
             if ($displayMode === 'specific_pages' && !empty($selectedPages)) {
                 $collection->addFieldToFilter('identifier', ['in' => $selectedPages]);
             }
 
             return $collection;
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->logger->error('Error in getting pages: ' . $exception->getMessage());
+            // Return an empty collection in case of error
+            return $this->pageCollectionFactory->create();
         }
-
-        return $this->pageCollectionFactory->create();
     }
 
     /**
