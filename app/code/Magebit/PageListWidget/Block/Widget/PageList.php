@@ -43,7 +43,7 @@ class PageList extends Template implements BlockInterface
         private readonly LoggerInterface $logger,
         array $data = []
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($this->context, $data);
     }
 
     /**
@@ -66,7 +66,7 @@ class PageList extends Template implements BlockInterface
         try {
             $collection = $this->pageCollectionFactory->create();
             $collection->addFieldToFilter('is_active', 1)
-                ->addStoreFilter($this->context->getStoreManager()->getStore()->getId());
+                ->addStoreFilter($this->_storeManager->getStore()->getId());
 
             $displayMode = $this->getData('display_mode');
             $selectedPages = $this->getSelectedPages();
@@ -98,4 +98,3 @@ class PageList extends Template implements BlockInterface
         return [];
     }
 }
-
