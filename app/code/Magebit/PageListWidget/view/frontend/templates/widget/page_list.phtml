@@ -1,0 +1,35 @@
+<?php
+/**
+ * @copyright Copyright (c) 2024 Magebit (https://magebit.com)
+ * @author    Magebit <info@magebit.com>
+ * @license   GNU General Public License ("GPL") v3.0
+ */
+
+declare(strict_types=1);
+
+use Magento\Framework\Escaper;
+use Magebit\PageListWidget\Block\Widget\PageList;
+
+/** @var Escaper $escaper */
+/** @var PageList $block */
+
+$pages = $block->getPages();
+?>
+<div class="magebit-page-list-widget">
+    <?php if ($title = $block->getTitle()): ?>
+        <h2 class="page-list-title"><?= $escaper->escapeHtml($title) ?></h2>
+    <?php endif; ?>
+
+    <?php if ($pages->getSize()): ?>
+        <ul class="page-list">
+            <?php foreach ($pages as $page): ?>
+                <li class="page-item">
+                    <a href="<?= $escaper->escapeUrl($block->getUrl($page->getIdentifier())) ?>"><?= $escaper->escapeHtml($page->getTitle()) ?></a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else: ?>
+        <p><?= $escaper->escapeHtml(__('No pages available.')) ?></p>
+    <?php endif; ?>
+</div>
+
