@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Widget configuration file for Magebit_PageListWidget.
- *
- * This file defines the widget's behavior, parameters, and options for use in Magento 2.
+ * @copyright Copyright (c) 2024 Magebit (https://magebit.com)
+ * @author    Magebit <info@magebit.com>
+ * @license   GNU General Public License ("GPL") v3.0
  */
 -->
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">

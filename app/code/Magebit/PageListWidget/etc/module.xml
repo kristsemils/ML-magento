@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Module configuration file for Magebit_PageListWidget.
- *
- * This file declares the module and its dependencies within Magento 2.
+ * @copyright Copyright (c) 2024 Magebit (https://magebit.com)
+ * @author    Magebit <info@magebit.com>
+ * @license   GNU General Public License ("GPL") v3.0
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">

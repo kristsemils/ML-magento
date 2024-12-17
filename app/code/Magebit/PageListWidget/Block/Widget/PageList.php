@@ -38,9 +38,9 @@ class PageList extends Template implements BlockInterface
      * @param array $data
      */
     public function __construct(
-        private readonly Context $context,
         private readonly CollectionFactory $pageCollectionFactory,
         private readonly LoggerInterface $logger,
+        Context $context,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -60,14 +60,13 @@ class PageList extends Template implements BlockInterface
      * Get the collection of active pages based on display mode and selected pages.
      *
      * @return Collection
-     * @throws Exception
      */
     public function getPages(): Collection
     {
         try {
             $collection = $this->pageCollectionFactory->create();
             $collection->addFieldToFilter('is_active', 1)
-                       ->addStoreFilter($this->_storeManager->getStore()->getId());
+                ->addStoreFilter($this->_storeManager->getStore()->getId());
 
             $displayMode = $this->getData('display_mode');
             $selectedPages = $this->getSelectedPages();
@@ -79,7 +78,6 @@ class PageList extends Template implements BlockInterface
             return $collection;
         } catch (Exception $exception) {
             $this->logger->error('Error in getting pages: ' . $exception->getMessage());
-            // Return an empty collection in case of error
             return $this->pageCollectionFactory->create();
         }
     }
