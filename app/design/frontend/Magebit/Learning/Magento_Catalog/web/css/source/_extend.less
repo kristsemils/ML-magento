@@ -1,0 +1,132 @@
+.related-product {
+    position: relative;
+}
+
+.related-product .addtocart-btn {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.2s ease, opacity 0.2s ease;
+}
+
+.related-product:hover .addtocart-btn {
+    visibility: visible;
+    opacity: 1;
+}
+
+.addtocart-product-info .addtocart-btn {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.addtocart-btn {
+    border: none;
+    border-radius: 2px;
+    background-color: #FF5501;
+    color: #fff;
+    font: normal normal 600 18px/24px Open Sans;
+    margin-top: 10px;
+    width: 100%;
+    height: 52px;
+    transition: background-color 0.2s ease, visibility 0.2s ease, opacity 0.2s ease;
+}
+
+.addtocart-btn:hover {
+    background-color: #E64A00;
+}
+
+.related-product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(224px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.related-product:hover {
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+}
+
+.related-product-info {
+    margin: 10px;
+}
+
+.related-product-name {
+    font: normal normal 600 16px/22px Open Sans;
+}
+
+.related-product-price {
+    font: normal normal bold 22px/30px Open Sans;
+}
+
+.related-product-image {
+    height: 280px;
+    justify-self: center;
+}
+
+.related-product-reviews .product-reviews-summary.short {
+    margin-bottom: 10px;
+    text-decoration: none;
+}
+
+.addtocart-product-info, .qty-container {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.qty-container {
+    border: 1px solid #C2C2C2;
+    border-radius: 2px;
+    height: 52px;
+    width: fit-content;
+    margin-right: 20px;
+}
+
+.qty-btn {
+    height: 100%;
+    width: 52px;
+    border-radius: 0;
+    border: none;
+    background-color: transparent;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.qty-btn:hover, .qty-btn:active, .qty-btn:focus {
+    border: none;
+    background-color: transparent;
+}
+
+.qty-btn#add {
+    color: #FF5501;
+}
+
+input.qty-input {
+    text-align: center;
+    height: 100%;
+    width: 86px;
+    border-top: none;
+    border-bottom: none;
+}
+
+.product-stock {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.product-stock-info {
+    font: normal normal bold 14px/19px 'Open Sans', sans-serif;
+    margin-right: 5px;
+    margin-left: 4px;
+    display: flex;
+    align-items: center;
+    line-height: normal;
+    color: #575757;
+}
+
+.product-stock-qty {
+    font: normal normal normal 14px/19px 'Open Sans', sans-serif;
+    display: flex;
+    align-items: center;
+    line-height: normal;
+}
