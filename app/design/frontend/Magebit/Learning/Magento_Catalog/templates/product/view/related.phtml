@@ -19,7 +19,7 @@ $products = $block->getItems();
                     <div class="related-product-reviews"> <?= $block->getReviewsSummaryHtml($product, 'short') ?> </div>
                     <div class="related-product-price">$<?= number_format($product->getPrice(), 2) ?></div>
                     <form action="<?= $block->getAddToCartUrl($product) ?>" method="post">
-                        <button type="submit" class="addtocart-btn">
+                        <button type="submit" class="addtocart-btn addtocart-button-visibility">
                             <?= __('Add to Cart') ?>
                         </button>
                     </form>

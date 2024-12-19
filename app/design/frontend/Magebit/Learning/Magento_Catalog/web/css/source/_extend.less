@@ -1,129 +1,37 @@
-.product-details {
-    background: #F9F9F9 0% 0% no-repeat padding-box;
+.related-product {
+    position: relative;
+}
+
+.related-product .addtocart-btn {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.2s ease, opacity 0.2s ease;
+}
+
+.related-product:hover .addtocart-btn {
+    visibility: visible;
     opacity: 1;
-    padding: 20px;
 }
 
-.detail-item {
-    margin: 5px;
+.addtocart-product-info .addtocart-btn {
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
-.short-description {
-    font: normal normal normal 12px/17px Open Sans;
-}
-
-button#product-addtocart-button {
-    background: #FF5501 0% 0% no-repeat padding-box;
+.addtocart-btn {
     border: none;
     border-radius: 2px;
-    width: 100%;
-    margin: none;
-}
-
-.action.view {
-    color: #FF5501;
-    text-decoration: underline;
-}
-
-.action.add {
-    color: #333;
-    border: 1px solid #333;
-    padding: 6px 10px;
-}
-
-.product-info-main .product-info-price {
-    border: none;
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    margin-top: 20px;
-}
-
-.product-info-main .product-info-price .price-box {
-    padding: 0;
-    vertical-align: middle;
-}
-
-.product-info-main .product-info-stock-sku {
-    float: none;
-    padding: 0;
-    padding-left: 16px;
-}
-
-.page-title {
-    font: normal normal 600 32px/43px Open Sans;
-}
-
-.related-header, .upsell-header {
-    padding-bottom: 8px;
-    border-bottom: 1px solid #C2C2C2;
-}
-
-.product-info-main .rating-summary {
-    margin-right: 5px;
-}
-
-.rating-summary {
-    margin-right: 5px;
-}
-
-.upsell-header {
-    font: normal normal bold 16px/22px Open Sans;
-}
-
-.upsell-product {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    background-color: #FF5501;
+    color: #fff;
+    font: normal normal 600 18px/24px Open Sans;
     margin-top: 10px;
+    width: 100%;
+    height: 52px;
+    transition: background-color 0.2s ease, visibility 0.2s ease, opacity 0.2s ease;
 }
 
-.upsell-image {
-    height: 100px;
-    width: auto;
-    object-fit: contain;
-    margin-right: 20px;
-}
-
-.upsell-product-info {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-}
-
-
-.upsell-product-name, .upsell-product-price {
-    font: normal normal 600 18px/26px Open Sans;
-}
-
-.upsell-product-price {
-    margin-top: auto;
-}
-
-.upsell-product-link {
-    font: normal normal 600 14px/19px Open Sans;
-    background-color: #333;
-    border-radius: 2px;
-    text-decoration: none;
-    color: #fff;
-    padding: 6px 10px;
-    margin-left: auto;
-}
-
-.upsell-product-link:hover {
-    text-decoration: none;
-}
-
-.upsell-product-link:visited {
-    color: #fff;
-}
-
-.block-related {
-    clear: both;
-}
-
-.related-header {
-    font: normal normal 600 24px/33px Open Sans;
+.addtocart-btn:hover {
+    background-color: #E64A00;
 }
 
 .related-product-grid {
@@ -133,21 +41,8 @@ button#product-addtocart-button {
     margin-top: 20px;
 }
 
-.related-product {
-    display: grid;
-}
-
 .related-product:hover {
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
-}
-.related-product:hover .related-product-addtocart {
-    visibility: visible;
-}
-
-
-.related-product-image {
-    height: 280px;
-    justify-self: center;
 }
 
 .related-product-info {
@@ -158,44 +53,18 @@ button#product-addtocart-button {
     font: normal normal 600 16px/22px Open Sans;
 }
 
-.related-product-reviews .product-reviews-summary.short {
-    margin-bottom: 10px;
-    text-decoration: none;
-}
-
-.related-product-reviews .product-reviews-summary.short .reviews-actions .action.view {
-    text-decoration: none;
-}
-
 .related-product-price {
     font: normal normal bold 22px/30px Open Sans;
 }
 
-
-
-.related-product {
-    position: relative;
+.related-product-image {
+    height: 280px;
+    justify-self: center;
 }
 
-.addtocart-btn {
-    visibility: hidden;
-    border: none;
-    border-radius: 2px;
-    background-color: #FF5501;
-    color: #fff;
-    font: normal normal 600 18px/24px Open Sans;
-    margin-top: 10px;
-    width: 100%;
-    height: 52px;
-    transition: visibility 0.2s ease;
-}
-
-.related-product:hover .addtocart-btn {
-    visibility: visible;
-}
-
-.addtocart-btn:hover {
-    background-color: #E64A00;
+.related-product-reviews .product-reviews-summary.short {
+    margin-bottom: 10px;
+    text-decoration: none;
 }
 
 .addtocart-product-info, .qty-container {
@@ -228,10 +97,10 @@ button#product-addtocart-button {
 }
 
 .qty-btn#add {
-    color: #FF5501
+    color: #FF5501;
 }
 
-input.qty-input  {
+input.qty-input {
     text-align: center;
     height: 100%;
     width: 86px;
@@ -261,4 +130,3 @@ input.qty-input  {
     align-items: center;
     line-height: normal;
 }
-
