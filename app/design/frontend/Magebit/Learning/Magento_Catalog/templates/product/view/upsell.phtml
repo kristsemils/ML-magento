@@ -1,0 +1,26 @@
+<?php
+/**
+ * @copyright Copyright (c) 2024 Magebit (https://magebit.com)
+ * @author    Magebit <info@magebit.com>
+ * @license   GNU General Public License ("GPL") v3.0
+ */
+/** @var Magento\Catalog\Block\Product\ProductList\Upsell $block */
+$products = $block->getItems();
+?>
+
+<div>
+    <div class="upsell-header">
+        We found other products you might like!
+    </div>
+    <?php foreach ($products as $product): ?>
+        <div class="upsell-product">
+            <img class="upsell-image" src="<?= $block->getImage($product, 'product_page_image_small')->getImageUrl() ?>" alt="<?= $product->getName() ?>" />
+            <div class="upsell-product-info">
+                <div class="upsell-product-name"><?= $product->getName() ?></div>
+                <div class="upsell-reviews"> <?= $block->getReviewsSummaryHtml($product, 'short') ?> </div>
+                <div class="upsell-product-price">$<?= number_format($product->getPrice(), 2) ?></div>
+            </div>
+            <a class="upsell-product-link" href="<?= $product->getProductUrl() ?>" >View Product</a>
+        </div>
+    <?php endforeach; ?>
+</div>

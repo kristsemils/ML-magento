@@ -1,0 +1,30 @@
+<?php
+/**
+ * @copyright Copyright (c) 2024 Magebit (https://magebit.com)
+ * @author    Magebit <info@magebit.com>
+ * @license   GNU General Public License ("GPL") v3.0
+ */
+/** @var Magento\Catalog\Block\Product\ProductList\Related $block */
+$products = $block->getItems();
+?>
+
+<div class="block-related">
+    <div class="related-header">Related Products</div>
+    <div class="related-product-grid">
+        <?php foreach ($products as $product): ?>
+            <div class="related-product">
+                <img class="related-product-image" src="<?= $block->getImage($product, 'product_page_image_large')->getImageUrl() ?>" alt="<?= $product->getName() ?>" />
+                <div class="related-product-info">
+                    <div class="related-product-name"><?= $product->getName() ?></div>
+                    <div class="related-product-reviews"> <?= $block->getReviewsSummaryHtml($product, 'short') ?> </div>
+                    <div class="related-product-price">$<?= number_format($product->getPrice(), 2) ?></div>
+                    <form action="<?= $block->getAddToCartUrl($product) ?>" method="post">
+                        <button type="submit" class="addtocart-btn">
+                            <?= __('Add to Cart') ?>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>
