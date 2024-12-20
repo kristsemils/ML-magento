@@ -10,4 +10,3 @@ function subtract() {
 function add() {
     document.getElementById("qty").value = Math.min(+document.getElementById("qty").max, +document.getElementById("qty").value + 1);
 }
-

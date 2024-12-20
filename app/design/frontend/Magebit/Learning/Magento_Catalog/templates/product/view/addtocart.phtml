@@ -4,33 +4,38 @@
  * @author    Magebit <info@magebit.com>
  * @license   GNU General Public License ("GPL") v3.0
  */
-/** @var Magento\Catalog\Block\Product\View $block */
-/** @var \Magento\Catalog\Model\Product $product */
-/** @var \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry */
-$product = $block->getProduct();
-$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-$stockRegistry = $objectManager->get(\Magento\CatalogInventory\Api\StockRegistryInterface::class);
-$stockItem = $stockRegistry->getStockItem($product->getId());
-$qty = $stockItem->getQty();
 
+/**
+ * @var \Magebit\Learning\Block\Product\View\AddToCart $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+
+$product = $block->getProduct();
+$addToCartUrl = $block->getAddToCartUrl($product);
+$qty = $block->getStockQuantity($product);
 ?>
-<form action="<?= $block->getAddToCartUrl($product) ?>" method="post">
+
+<form action="<?= $escaper->escapeUrl($addToCartUrl) ?>" method="post">
     <div class="addtocart-product-info">
         <div class="qty-container">
             <button type="button" class="qty-btn" id="sub" data-bind="click: function() { subtract(); }">-</button>
-            <input type="number" min="1" max="<?= $qty ?>" value="1" class="qty-input" id="qty" name="qty">
+            <input type="number" min="1" max="<?= $escaper->escapeHtmlAttr($qty) ?>" value="1" class="qty-input" id="qty" name="qty">
             <button type="button" class="qty-btn" id="add" data-bind="click: function() { add(); }">+</button>
         </div>
         <div class="product-stock">
-            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" fill="#575757"/></svg>
-            <div class="product-stock-info"> <?= $product->isSalable() ? "IN STOCK" : "X OUT OF STOCK" ?>  </div>
-            <?php if ($product->isSalable()): ?>
-                <div class="product-stock-qty"> <?= $qty ?> items available</div>
-            <?php endif;?>
+            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24">
+                <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" fill="#575757"/>
+            </svg>
+            <div class="product-stock-info">
+                <?= $product->isSaleable() ? $escaper->escapeHtml(__("IN STOCK")) : $escaper->escapeHtml(__("X OUT OF STOCK")) ?>
+            </div>
+            <?php if ($product->isSaleable()): ?>
+                <div class="product-stock-qty"><?= $escaper->escapeHtml(__('%1 items available', $qty)) ?></div>
+            <?php endif; ?>
         </div>
     </div>
     <button type="submit" class="addtocart-btn">
-        <?= __('Add to Cart') ?>
+        <?= $escaper->escapeHtml(__('Add to Cart')) ?>
     </button>
 </form>
 

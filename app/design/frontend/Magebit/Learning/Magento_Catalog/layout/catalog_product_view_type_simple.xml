@@ -33,9 +33,8 @@
                         template="Magento_Catalog::product/view/related.phtml">
         </referenceBlock>
 
-        <referenceBlock class="Magento\Catalog\Block\Product\View"
-                        name="product.info.addtocart"
-                        template="Magento_Catalog::product/view/addtocart.phtml">
+        <referenceBlock name="product.info.addtocart">
+            <block class="Magebit\Learning\Block\Product\View\AddToCart" name="magebit.product.addtocart" template="Magebit_Theme::product/view/addtocart.phtml"/>
         </referenceBlock>
     </body>
 </page>
