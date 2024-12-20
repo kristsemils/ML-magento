@@ -19,7 +19,7 @@ $qty = $block->getStockQuantity($product);
     <div class="addtocart-product-info">
         <div class="qty-container">
             <button type="button" class="qty-btn" id="sub" data-bind="click: function() { subtract(); }">-</button>
-            <input type="number" min="1" max="<?= $escaper->escapeHtmlAttr($qty) ?>" value="1" class="qty-input" id="qty" name="qty">
+            <input type="number" min="1" max="<?= $escaper->escapeHtml($qty) ?>" value="1" class="qty-input" id="qty" name="qty">
             <button type="button" class="qty-btn" id="add" data-bind="click: function() { add(); }">+</button>
         </div>
         <div class="product-stock">

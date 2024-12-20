@@ -1,7 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2024 Magebit (https://magebit.com)
- * @author    Magebit <info@magebit.com>
+ * @author    Magebit
  * @license   GNU General Public License ("GPL") v3.0
  */
 
@@ -16,16 +16,6 @@ use Magento\Framework\Registry;
 class AddToCart extends Template
 {
     /**
-     * @var StockRegistryInterface
-     */
-    private $stockRegistry;
-
-    /**
-     * @var Registry
-     */
-    private $registry;
-
-    /**
      * Constructor
      *
      * @param Context $context
@@ -34,14 +24,12 @@ class AddToCart extends Template
      * @param array $data
      */
     public function __construct(
-        Context $context,
-        StockRegistryInterface $stockRegistry,
-        Registry $registry,
+        private readonly Context $context,
+        private readonly StockRegistryInterface $stockRegistry,
+        private readonly Registry $registry,
         array $data = []
     ) {
-        $this->stockRegistry = $stockRegistry;
-        $this->registry = $registry;
-        parent::__construct($context, $data);
+        parent::__construct($this->context, $data);
     }
 
     /**
@@ -80,6 +68,6 @@ class AddToCart extends Template
         }
 
         $stockItem = $this->stockRegistry->getStockItem($product->getId());
-        return $stockItem ? (float)$stockItem->getQty() : 0;
+        return $stockItem ? $stockItem->getQty() : 0;
     }
 }
