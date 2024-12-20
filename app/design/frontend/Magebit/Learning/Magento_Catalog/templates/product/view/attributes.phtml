@@ -1,0 +1,34 @@
+<?php
+/**
+ * @copyright Copyright (c) 2024 Magebit (https://magebit.com)
+ * @author    Magebit <info@magebit.com>
+ * @license   GNU General Public License ("GPL") v3.0
+ */
+
+use Magento\Catalog\Block\Product\View\Attributes;
+use Magento\Catalog\Model\Product;
+use Magento\Framework\Escaper;
+
+/** @var Escaper $escaper */
+/** @var Attributes $block */
+/** @var Product $product */
+
+$product = $block->getProduct();
+$attributes = $product->getAttributes();
+$displayAttributes = ['dimensions', 'color', 'material'];
+?>
+
+<div class="product-details">
+    <?php foreach ($displayAttributes as $code): ?>
+        <?php if (isset($attributes[$code])): ?>
+            <?php $attribute = $attributes[$code]; ?>
+            <div class="detail-item">
+                <strong><?= $escaper->escapeHtml($attribute->getFrontendLabel()) ?>:</strong>
+                        <?= $escaper->escapeHtml($attribute->getFrontend()->getValue($product)) ?>
+            </div>
+        <?php endif; ?>
+    <?php endforeach; ?>
+    <div class="short-description">
+        <?= $escaper->escapeHtml($attributes['short_description']->getFrontend()->getValue($product)) ?>
+    </div>
+</div>
