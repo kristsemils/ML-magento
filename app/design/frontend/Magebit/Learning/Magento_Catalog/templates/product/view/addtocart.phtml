@@ -4,22 +4,27 @@
  * @author    Magebit <info@magebit.com>
  * @license   GNU General Public License ("GPL") v3.0
  */
+declare(strict_types=1);
+
+use Magebit\Learning\Block\Product\View\AddToCart;
+use Magento\Framework\Escaper;
 
 /**
- * @var \Magebit\Learning\Block\Product\View\AddToCart $block
- * @var \Magento\Framework\Escaper $escaper
+ * @var AddToCart $block
+ * @var Escaper $escaper
  */
 
 $product = $block->getProduct();
 $addToCartUrl = $block->getAddToCartUrl($product);
-$qty = $block->getStockQuantity($product);
+$qty = $block->getStockQuantity();
+$sku = $product->getSku();
 ?>
 
 <form action="<?= $escaper->escapeUrl($addToCartUrl) ?>" method="post">
     <div class="addtocart-product-info">
         <div class="qty-container">
             <button type="button" class="qty-btn" id="sub" data-bind="click: function() { subtract(); }">-</button>
-            <input type="number" min="1" max="<?= $escaper->escapeHtml($qty) ?>" value="1" class="qty-input" id="qty" name="qty">
+            <input type="number" min="1" max="<?= $escaper->escapeHtmlAttr($qty) ?>" value="1" class="qty-input" id="qty" name="qty">
             <button type="button" class="qty-btn" id="add" data-bind="click: function() { add(); }">+</button>
         </div>
         <div class="product-stock">
@@ -27,9 +32,9 @@ $qty = $block->getStockQuantity($product);
                 <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" fill="#575757"/>
             </svg>
             <div class="product-stock-info">
-                <?= $product->isSaleable() ? $escaper->escapeHtml(__("IN STOCK")) : $escaper->escapeHtml(__("X OUT OF STOCK")) ?>
+                <?= $qty > 0 ? $escaper->escapeHtml(__("in stock")) : $escaper->escapeHtml(__("out of stock")) ?>
             </div>
-            <?php if ($product->isSaleable()): ?>
+            <?php if (($qty ?? 0) > 0): ?>
                 <div class="product-stock-qty"><?= $escaper->escapeHtml(__('%1 items available', $qty)) ?></div>
             <?php endif; ?>
         </div>

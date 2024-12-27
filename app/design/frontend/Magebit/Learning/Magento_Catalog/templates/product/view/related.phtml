@@ -4,11 +4,14 @@
  * @author    Magebit <info@magebit.com>
  * @license   GNU General Public License ("GPL") v3.0
  */
+declare(strict_types=1);
 
+use Magento\Catalog\Block\Product\ProductList\Related;
 use Magento\Framework\Escaper;
 
+
 /** @var Escaper $escaper */
-/** @var Magento\Catalog\Block\Product\ProductList\Related $block */
+/** @var Related $block */
 $products = $block->getItems();
 ?>
 

@@ -4,30 +4,28 @@
  * @author    Magebit <info@magebit.com>
  * @license   GNU General Public License ("GPL") v3.0
  */
+declare(strict_types=1);
 
-use Magento\Catalog\Block\Product\View\Attributes;
-use Magento\Catalog\Model\Product;
+use Magebit\Learning\Block\Product\View\ProductAttributes;
 use Magento\Framework\Escaper;
 
+/** @var ProductAttributes $block */
 /** @var Escaper $escaper */
-/** @var Attributes $block */
-/** @var Product $product */
 
 $product = $block->getProduct();
 $attributes = $product->getAttributes();
-$displayAttributes = ['dimensions', 'color', 'material'];
 ?>
 
 <div class="product-details">
-    <?php foreach ($displayAttributes as $code): ?>
-        <?php if (isset($attributes[$code])): ?>
-            <?php $attribute = $attributes[$code]; ?>
+    <?php $filteredAttributes = $block->getFilteredAttributes(); ?>
+    <?php if (!empty($filteredAttributes)): ?>
+        <?php foreach ($filteredAttributes as $attribute): ?>
             <div class="detail-item">
                 <strong><?= $escaper->escapeHtml($attribute->getFrontendLabel()) ?>:</strong>
-                        <?= $escaper->escapeHtml($attribute->getFrontend()->getValue($product)) ?>
+                <?= $escaper->escapeHtml($block->getAttributeValue($attribute, $block->getProduct())) ?>
             </div>
-        <?php endif; ?>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
     <div class="short-description">
         <?= $escaper->escapeHtml($attributes['short_description']->getFrontend()->getValue($product)) ?>
     </div>

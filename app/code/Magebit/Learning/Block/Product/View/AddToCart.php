@@ -1,32 +1,39 @@
 <?php
 /**
  * @copyright Copyright (c) 2024 Magebit (https://magebit.com)
- * @author    Magebit
+ * @author    Magebit <info@magebit.com>
  * @license   GNU General Public License ("GPL") v3.0
+ *
+ * Add to Cart block for product view
  */
+
+declare(strict_types=1);
 
 namespace Magebit\Learning\Block\Product\View;
 
 use Magento\Catalog\Model\Product;
-use Magento\CatalogInventory\Api\StockRegistryInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Framework\Registry;
+use Magento\InventorySalesApi\Api\GetProductSalableQtyInterface;
 
+/**
+ * Class AddToCart
+ *
+ * Block class for Add to Cart functionality on product view page
+ */
 class AddToCart extends Template
 {
     /**
-     * Constructor
-     *
      * @param Context $context
-     * @param StockRegistryInterface $stockRegistry
      * @param Registry $registry
+     * @param GetProductSalableQtyInterface $getProductSalableQty
      * @param array $data
      */
     public function __construct(
-        private readonly Context $context,
-        private readonly StockRegistryInterface $stockRegistry,
         private readonly Registry $registry,
+        private readonly GetProductSalableQtyInterface $getProductSalableQty,
+        private readonly Context $context,
         array $data = []
     ) {
         parent::__construct($this->context, $data);
@@ -37,37 +44,42 @@ class AddToCart extends Template
      *
      * @return Product|null
      */
-    public function getProduct()
+    public function getProduct(): ?Product
     {
         return $this->registry->registry('product');
     }
 
     /**
-     * Get add to cart URL
+     * Get Add to Cart URL for the product
      *
-     * @param Product|null $product
+     * @param Product $product
      * @return string
      */
-    public function getAddToCartUrl($product = null)
+    public function getAddToCartUrl(Product $product): string
     {
-        $product = $product ?: $this->getProduct();
         return $this->getUrl('checkout/cart/add', ['product' => $product->getId()]);
     }
 
     /**
-     * Get stock quantity
+     * Get the stock quantity for the product using MSI
      *
-     * @param Product|null $product
      * @return float
      */
-    public function getStockQuantity($product = null)
+    public function getStockQuantity(): float
     {
-        $product = $product ?: $this->getProduct();
+        $product = $this->getProduct();
+
         if (!$product) {
             return 0;
         }
 
-        $stockItem = $this->stockRegistry->getStockItem($product->getId());
-        return $stockItem ? $stockItem->getQty() : 0;
+        $sku = $product->getSku();
+        $stockId = 1;
+
+        try {
+            return $this->getProductSalableQty->execute($sku, $stockId);
+        } catch (\Exception $e) {
+            return 0;
+        }
     }
 }
