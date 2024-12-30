@@ -27,7 +27,7 @@ $products = $block->getItems();
             <div class="upsell-product-info">
                 <div class="upsell-product-name"><?= $escaper->escapeHtml($product->getName()) ?></div>
                 <div class="upsell-reviews"><?= $block->getReviewsSummaryHtml($product, 'short') ?></div>
-                <div class="upsell-product-price"><?= $escaper->escapeHtml('$' . number_format($product->getPrice(), 2)) ?></div>
+                <div class="upsell-product-price"><?= $escaper->escapeHtml('$' . number_format((float)$product->getPrice(), 2)) ?></div>
             </div>
             <a class="upsell-product-link" href="<?= $escaper->escapeUrl($product->getProductUrl()) ?>">
                 <?= $escaper->escapeHtml(__('View Product')) ?>

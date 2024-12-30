@@ -1,32 +1,42 @@
 <?php
 /**
- * @copyright Copyright (c) 2024 Magebit (https://magebit.com)
+ * @copyright Copyright (c) 2024 Magebit, Ltd. (https://magebit.com/)
  * @author    Magebit <info@magebit.com>
- * @license   GNU General Public License ("GPL") v3.0
+ * @license   MIT
  */
+
 declare(strict_types=1);
 
 use Magebit\Learning\Block\Product\View\ProductAttributes;
 use Magento\Framework\Escaper;
 
-/** @var ProductAttributes $block */
-/** @var Escaper $escaper */
+/**
+ * Template for displaying selected product attributes and short description.
+ * @var ProductAttributes $block
+ * @var Escaper $escaper
+ */
 
-$product = $block->getProduct();
-$attributes = $product->getAttributes();
+$attributes = $block->getDisplayAttributes();
+$shortDescription = $block->getShortDescription();
 ?>
 
 <div class="product-details">
-    <?php $filteredAttributes = $block->getFilteredAttributes(); ?>
-    <?php if (!empty($filteredAttributes)): ?>
-        <?php foreach ($filteredAttributes as $attribute): ?>
+    <?php if (!empty($attributes)): ?>
+        <?php foreach ($attributes as $attribute): ?>
             <div class="detail-item">
-                <strong><?= $escaper->escapeHtml($attribute->getFrontendLabel()) ?>:</strong>
-                <?= $escaper->escapeHtml($block->getAttributeValue($attribute, $block->getProduct())) ?>
+                <li>
+                    <strong><?= $escaper->escapeHtml($attribute['label']) ?>:</strong>
+                    <?= $escaper->escapeHtml($attribute['value']) ?>
+                </li>
             </div>
         <?php endforeach; ?>
+    <?php else: ?>
+        <p><?= $escaper->escapeHtml(__('No additional product information available.')) ?></p>
     <?php endif; ?>
-    <div class="short-description">
-        <?= $escaper->escapeHtml($attributes['short_description']->getFrontend()->getValue($product)) ?>
-    </div>
+
+    <?php if ($shortDescription): ?>
+        <div class="short_description">
+            <p><?= /** @noEscape */ $shortDescription ?></p>
+        </div>
+    <?php endif; ?>
 </div>

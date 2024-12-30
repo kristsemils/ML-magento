@@ -1,7 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2024 Magebit (https://magebit.com)
- * @author    Magebit <info@magebit.com>
+ * @copyright Copyright (c) 2024 Magebit
+ * @author    Magebit
  * @license   GNU General Public License ("GPL") v3.0
  *
  * Product Attributes block for product view
@@ -11,143 +11,125 @@ declare(strict_types=1);
 
 namespace Magebit\Learning\Block\Product\View;
 
+use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Catalog\Block\Product\Context;
+use Magento\Catalog\Block\Product\View as ProductViewBlock;
 use Magento\Catalog\Model\Product;
-use Magento\Framework\View\Element\Template;
-use Magento\Framework\Registry;
-use Magento\Framework\View\Element\Template\Context;
-use Magento\Catalog\Model\ResourceModel\Eav\Attribute;
+use Magento\Catalog\Model\ProductTypes\ConfigInterface;
+use Magento\Framework\Url\EncoderInterface;
+use Magento\Framework\Json\EncoderInterface as JsonEncoderInterface;
+use Magento\Customer\Model\Session;
+use Magento\Framework\Locale\FormatInterface;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Framework\Stdlib\StringUtils;
+use Magento\Catalog\Helper\Output as CatalogHelper;
 
 /**
  * Class ProductAttributes
  *
- * Block class for displaying product attributes on product view page
+ * Block class for displaying product attributes on the product view page.
  */
-class ProductAttributes extends Template
+class ProductAttributes extends ProductViewBlock
 {
     /**
-     * Primary attributes to display
-     *
-     * @var array
+     * @var CatalogHelper
      */
-    private array $primaryAttributes = ['dimensions', 'color', 'material'];
-
-    /**
-     * Fallback attributes to display if primary ones are not available
-     *
-     * @var array
-     */
-    private array $fallbackAttributes = ['size', 'weight', 'manufacturer', 'brand'];
-
-    /**
-     * Maximum number of attributes to display
-     *
-     * @var int
-     */
-    private int $maxAttributes = 3;
+    private CatalogHelper $catalogHelper;
 
     /**
      * @param Context $context
-     * @param Registry $registry
+     * @param EncoderInterface $urlEncoder
+     * @param JsonEncoderInterface $jsonEncoder
+     * @param StringUtils $string
+     * @param \Magento\Catalog\Helper\Product $productHelper
+     * @param ConfigInterface $productTypeConfig
+     * @param FormatInterface $localeFormat
+     * @param Session $customerSession
+     * @param ProductRepositoryInterface $productRepository
+     * @param PriceCurrencyInterface $priceCurrency
+     * @param CatalogHelper $catalogHelper
      * @param array $data
      */
     public function __construct(
         Context $context,
-        private readonly Registry $registry,
+        EncoderInterface $urlEncoder,
+        JsonEncoderInterface $jsonEncoder,
+        StringUtils $string,
+        \Magento\Catalog\Helper\Product $productHelper,
+        ConfigInterface $productTypeConfig,
+        FormatInterface $localeFormat,
+        Session $customerSession,
+        ProductRepositoryInterface $productRepository,
+        PriceCurrencyInterface $priceCurrency,
+        CatalogHelper $catalogHelper,
         array $data = []
     ) {
-        parent::__construct($context, $data);
+        $this->catalogHelper = $catalogHelper;
+        parent::__construct(
+            $context,
+            $urlEncoder,
+            $jsonEncoder,
+            $string,
+            $productHelper,
+            $productTypeConfig,
+            $localeFormat,
+            $customerSession,
+            $productRepository,
+            $priceCurrency,
+            $data
+        );
     }
 
     /**
-     * Get current product
-     *
-     * @return Product|null
-     */
-    public function getProduct(): ?Product
-    {
-        return $this->registry->registry('current_product');
-    }
-
-    /**
-     * Get filtered product attributes
+     * Get the product attributes to display
      *
      * @return array
      */
-    public function getFilteredAttributes(): array
+    public function getDisplayAttributes(): array
     {
         $product = $this->getProduct();
-        if (!$product) {
+        if (!$product instanceof Product) {
             return [];
         }
 
         $attributes = $product->getAttributes();
-        $filteredAttributes = [];
+        $displayAttributes = ['dimensions', 'color', 'material'];
+        $result = [];
 
-        // First, try to get primary attributes
-        foreach ($this->primaryAttributes as $code) {
-            if (isset($attributes[$code]) && $this->isValidAttribute($attributes[$code], $product)) {
-                $filteredAttributes[$code] = $attributes[$code];
+        foreach ($displayAttributes as $code) {
+            if (isset($attributes[$code])) {
+                $attribute = $attributes[$code];
+                $result[] = [
+                    'label' => $attribute->getStoreLabel(),
+                    'value' => $attribute->getFrontend()->getValue($product)
+                ];
             }
         }
 
-        // If we don't have enough primary attributes, add fallback attributes
-        if (count($filteredAttributes) < $this->maxAttributes) {
-            foreach ($this->fallbackAttributes as $code) {
-                if (count($filteredAttributes) >= $this->maxAttributes) {
-                    break;
-                }
-
-                if (isset($attributes[$code]) &&
-                    !isset($filteredAttributes[$code]) &&
-                    $this->isValidAttribute($attributes[$code], $product)
-                ) {
-                    $filteredAttributes[$code] = $attributes[$code];
-                }
-            }
-        }
-
-        // If we still don't have enough attributes, try to get any visible attributes
-        if (count($filteredAttributes) < $this->maxAttributes) {
-            foreach ($attributes as $code => $attribute) {
-                if (count($filteredAttributes) >= $this->maxAttributes) {
-                    break;
-                }
-
-                if (!isset($filteredAttributes[$code]) &&
-                    $this->isValidAttribute($attribute, $product)
-                ) {
-                    $filteredAttributes[$code] = $attribute;
-                }
-            }
-        }
-
-        return $filteredAttributes;
+        return $result;
     }
 
     /**
-     * Check if attribute is valid for display
+     * Get the product's short description
      *
-     * @param Attribute $attribute
-     * @param Product $product
-     * @return bool
+     * @return string|null
      */
-    private function isValidAttribute(Attribute $attribute, Product $product): bool
+    public function getShortDescription(): ?string
     {
-        return $attribute->getIsVisible() &&
-            $attribute->getIsUserDefined() &&
-            $attribute->getFrontend()->getValue($product) !== null &&
-            $attribute->getFrontend()->getValue($product) !== '';
-    }
+        $product = $this->getProduct();
+        if (!$product instanceof Product) {
+            return null;
+        }
 
-    /**
-     * Get attribute display value
-     *
-     * @param Attribute $attribute
-     * @param Product $product
-     * @return string
-     */
-    public function getAttributeValue(Attribute $attribute, Product $product): string
-    {
-        return (string)$attribute->getFrontend()->getValue($product);
+        try {
+            return $this->catalogHelper->productAttribute(
+                $product,
+                $product->getData('short_description'),
+                'short_description'
+            );
+        } catch (\Exception $e) {
+            $this->_logger->error(__('Error fetching short description: %1', $e->getMessage()));
+            return null;
+        }
     }
 }

@@ -26,7 +26,7 @@ $products = $block->getItems();
                 <div class="related-product-info">
                     <div class="related-product-name"><?= $escaper->escapeHtml($product->getName()) ?></div>
                     <div class="related-product-reviews"><?= $block->getReviewsSummaryHtml($product, 'short') ?></div>
-                    <div class="related-product-price"><?= $escaper->escapeHtml('$' . number_format($product->getPrice(), 2)) ?></div>
+                    <div class="related-product-price"><?= $escaper->escapeHtml('$' . number_format((float)$product->getPrice(), 2)) ?></div>
                     <form action="<?= $escaper->escapeUrl($block->getAddToCartUrl($product)) ?>" method="post">
                         <button type="submit" class="addtocart-btn addtocart-button-visibility">
                             <?= $escaper->escapeHtml(__('Add to Cart')) ?>

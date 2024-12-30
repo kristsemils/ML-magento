@@ -21,7 +21,7 @@
 
         <referenceContainer name="product.info.main">
             <block class="Magebit\Learning\Block\Product\View\ProductAttributes"
-                   name="magebit.learning.product.attributes"
+                   name="product.attributes.custom"
                    template="Magento_Catalog::product/view/attributes.phtml"
                    after="product.info.price"/>
         </referenceContainer>
@@ -38,7 +38,7 @@
 
         <referenceContainer name="product.info.main">
             <block class="Magebit\Learning\Block\Product\View\AddToCart"
-                   name="product.info.add"
+                   name="magebit.learning.info.addtocart"
                    template="Magento_Catalog::product/view/addtocart.phtml"/>
         </referenceContainer>
     </body>
