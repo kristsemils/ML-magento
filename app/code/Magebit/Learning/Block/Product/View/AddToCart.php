@@ -14,6 +14,7 @@ namespace Magebit\Learning\Block\Product\View;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Block\Product\Context;
 use Magento\Catalog\Block\Product\View as ProductViewBlock;
+use Magento\Catalog\Helper\Product as ProductHelper;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductTypes\ConfigInterface;
 use Magento\Framework\Url\EncoderInterface;
@@ -41,7 +42,7 @@ class AddToCart extends ProductViewBlock
      * @param EncoderInterface $urlEncoder
      * @param JsonEncoderInterface $jsonEncoder
      * @param StringUtils $string
-     * @param \Magento\Catalog\Helper\Product $productHelper
+     * @param ProductHelper $productHelper
      * @param ConfigInterface $productTypeConfig
      * @param FormatInterface $localeFormat
      * @param Session $customerSession
@@ -55,7 +56,7 @@ class AddToCart extends ProductViewBlock
         EncoderInterface $urlEncoder,
         JsonEncoderInterface $jsonEncoder,
         StringUtils $string,
-        \Magento\Catalog\Helper\Product $productHelper,
+        ProductHelper $productHelper,
         ConfigInterface $productTypeConfig,
         FormatInterface $localeFormat,
         Session $customerSession,
