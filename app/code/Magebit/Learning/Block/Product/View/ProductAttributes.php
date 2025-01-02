@@ -11,17 +11,19 @@ declare(strict_types=1);
 
 namespace Magebit\Learning\Block\Product\View;
 
+use Exception;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Block\Product\Context;
 use Magento\Catalog\Block\Product\View as ProductViewBlock;
+use Magento\Catalog\Helper\Product as ProductHelper;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductTypes\ConfigInterface;
-use Magento\Framework\Url\EncoderInterface;
-use Magento\Framework\Json\EncoderInterface as JsonEncoderInterface;
 use Magento\Customer\Model\Session;
+use Magento\Framework\Json\EncoderInterface as JsonEncoderInterface;
 use Magento\Framework\Locale\FormatInterface;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Framework\Stdlib\StringUtils;
+use Magento\Framework\Url\EncoderInterface;
 use Magento\Catalog\Helper\Output as CatalogHelper;
 
 /**
@@ -32,16 +34,11 @@ use Magento\Catalog\Helper\Output as CatalogHelper;
 class ProductAttributes extends ProductViewBlock
 {
     /**
-     * @var CatalogHelper
-     */
-    private CatalogHelper $catalogHelper;
-
-    /**
      * @param Context $context
      * @param EncoderInterface $urlEncoder
      * @param JsonEncoderInterface $jsonEncoder
      * @param StringUtils $string
-     * @param \Magento\Catalog\Helper\Product $productHelper
+     * @param ProductHelper $productHelper
      * @param ConfigInterface $productTypeConfig
      * @param FormatInterface $localeFormat
      * @param Session $customerSession
@@ -51,22 +48,21 @@ class ProductAttributes extends ProductViewBlock
      * @param array $data
      */
     public function __construct(
-        Context $context,
+        private readonly Context $context,
         EncoderInterface $urlEncoder,
         JsonEncoderInterface $jsonEncoder,
         StringUtils $string,
-        \Magento\Catalog\Helper\Product $productHelper,
+        ProductHelper $productHelper,
         ConfigInterface $productTypeConfig,
         FormatInterface $localeFormat,
         Session $customerSession,
         ProductRepositoryInterface $productRepository,
         PriceCurrencyInterface $priceCurrency,
-        CatalogHelper $catalogHelper,
+        private readonly CatalogHelper $catalogHelper,
         array $data = []
     ) {
-        $this->catalogHelper = $catalogHelper;
         parent::__construct(
-            $context,
+            $this->context,
             $urlEncoder,
             $jsonEncoder,
             $string,
@@ -127,9 +123,10 @@ class ProductAttributes extends ProductViewBlock
                 $product->getData('short_description'),
                 'short_description'
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->_logger->error(__('Error fetching short description: %1', $e->getMessage()));
             return null;
         }
     }
 }
+

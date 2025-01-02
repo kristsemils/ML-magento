@@ -24,10 +24,8 @@ $shortDescription = $block->getShortDescription();
     <?php if (!empty($attributes)): ?>
         <?php foreach ($attributes as $attribute): ?>
             <div class="detail-item">
-                <li>
-                    <strong><?= $escaper->escapeHtml($attribute['label']) ?>:</strong>
-                    <?= $escaper->escapeHtml($attribute['value']) ?>
-                </li>
+                <strong><?= $escaper->escapeHtml($attribute['label']) ?>:</strong>
+                <?= $escaper->escapeHtml($attribute['value']) ?>
             </div>
         <?php endforeach; ?>
     <?php else: ?>
@@ -36,7 +34,7 @@ $shortDescription = $block->getShortDescription();
 
     <?php if ($shortDescription): ?>
         <div class="short_description">
-            <p><?= /** @noEscape */ $shortDescription ?></p>
+            <p><?= $escaper->escapeHtml($shortDescription) ?></p>
         </div>
     <?php endif; ?>
 </div>

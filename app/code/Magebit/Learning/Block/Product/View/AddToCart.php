@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Magebit\Learning\Block\Product\View;
 
+use Exception;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Block\Product\Context;
 use Magento\Catalog\Block\Product\View as ProductViewBlock;
@@ -32,10 +33,6 @@ use Magento\InventorySalesApi\Api\GetProductSalableQtyInterface;
  */
 class AddToCart extends ProductViewBlock
 {
-    /**
-     * @var GetProductSalableQtyInterface
-     */
-    private GetProductSalableQtyInterface $getProductSalableQty;
 
     /**
      * @param Context $context
@@ -48,11 +45,10 @@ class AddToCart extends ProductViewBlock
      * @param Session $customerSession
      * @param ProductRepositoryInterface $productRepository
      * @param PriceCurrencyInterface $priceCurrency
-     * @param GetProductSalableQtyInterface $getProductSalableQty
      * @param array $data
      */
     public function __construct(
-        Context $context,
+        private readonly Context $context,
         EncoderInterface $urlEncoder,
         JsonEncoderInterface $jsonEncoder,
         StringUtils $string,
@@ -62,12 +58,11 @@ class AddToCart extends ProductViewBlock
         Session $customerSession,
         ProductRepositoryInterface $productRepository,
         PriceCurrencyInterface $priceCurrency,
-        GetProductSalableQtyInterface $getProductSalableQty,
+        private readonly GetProductSalableQtyInterface $getProductSalableQty,
         array $data = []
     ) {
-        $this->getProductSalableQty = $getProductSalableQty;
         parent::__construct(
-            $context,
+            $this->context,
             $urlEncoder,
             $jsonEncoder,
             $string,
@@ -77,6 +72,7 @@ class AddToCart extends ProductViewBlock
             $customerSession,
             $productRepository,
             $priceCurrency,
+            (array)$this->getProductSalableQty,
             $data
         );
     }
@@ -111,7 +107,7 @@ class AddToCart extends ProductViewBlock
 
         try {
             return $this->getProductSalableQty->execute($sku, $stockId);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->_logger->error(__('Error fetching salable quantity: %1', $e->getMessage()));
             return 0.0;
         }
