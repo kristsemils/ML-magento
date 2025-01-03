@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @copyright Copyright (c) 2024 Magebit (https://magebit.com)
+ * @author    Magebit <info@magebit.com>
+ * @license   GNU General Public License ("GPL") v3.0
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="catalog_product_view"/>
+    <body>
+        <move element="product.info.main" destination="content" before="-"/>
+        <move element="product.info.upsell" destination="product.info.main" after="product.add.form"/>
+
+        <referenceBlock name="view.addto.compare" remove="true" />
+        <referenceBlock name="view.addto.wishlist" remove="true" />
+        <referenceBlock name="product.info.overview" remove="true"/>
+        <referenceBlock name="product.info.details" remove="true"/>
+        <referenceBlock name="product.info.addtocart" remove="true" />
+        <referenceContainer name="product.info.type" remove="true"/>
+
+        <referenceContainer name="product.info.main">
+            <block class="Magebit\Learning\Block\Product\View\ProductAttributes"
+                   name="product.attributes.custom"
+                   template="Magento_Catalog::product/view/attributes.phtml"
+                   after="product.info.price"/>
+        </referenceContainer>
+
+        <referenceBlock class="Magento\Catalog\Block\Product\ProductList\Upsell"
+                        name="product.info.upsell"
+                        template="Magento_Catalog::product/view/upsell.phtml">
+        </referenceBlock>
+
+        <referenceBlock class="Magento\Catalog\Block\Product\ProductList\Related"
+                        name="catalog.product.related"
+                        template="Magento_Catalog::product/view/related.phtml">
+        </referenceBlock>
+
+        <referenceContainer name="product.info.main">
+            <block class="Magebit\Learning\Block\Product\View\AddToCart"
+                   name="magebit.learning.info.addtocart"
+                   template="Magento_Catalog::product/view/addtocart.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,40 @@
+<?php
+/**
+ * @copyright Copyright (c) 2024 Magebit, Ltd. (https://magebit.com/)
+ * @author    Magebit <info@magebit.com>
+ * @license   MIT
+ */
+
+declare(strict_types=1);
+
+use Magebit\Learning\Block\Product\View\ProductAttributes;
+use Magento\Framework\Escaper;
+
+/**
+ * Template for displaying selected product attributes and short description.
+ * @var ProductAttributes $block
+ * @var Escaper $escaper
+ */
+
+$attributes = $block->getDisplayAttributes();
+$shortDescription = $block->getShortDescription();
+?>
+
+<div class="product-details">
+    <?php if (!empty($attributes)): ?>
+        <?php foreach ($attributes as $attribute): ?>
+            <div class="detail-item">
+                <strong><?= $escaper->escapeHtml($attribute['label']) ?>:</strong>
+                <?= $escaper->escapeHtml($attribute['value']) ?>
+            </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p><?= $escaper->escapeHtml(__('No additional product information available.')) ?></p>
+    <?php endif; ?>
+
+    <?php if ($shortDescription): ?>
+        <div class="short_description">
+            <p><?= $escaper->escapeHtml($shortDescription) ?></p>
+        </div>
+    <?php endif; ?>
+</div>
