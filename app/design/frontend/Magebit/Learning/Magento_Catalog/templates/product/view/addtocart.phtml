@@ -9,10 +9,8 @@ declare(strict_types=1);
 use Magebit\Learning\Block\Product\View\AddToCart;
 use Magento\Framework\Escaper;
 
-/**
- * @var AddToCart $block
- * @var Escaper $escaper
- */
+/** @var AddToCart $block */
+/** @var Escaper $escaper */
 
 $product = $block->getProduct();
 $addToCartUrl = $block->getAddToCartUrl($product);
@@ -20,29 +18,50 @@ $qty = $block->getStockQuantity();
 $sku = $product->getSku();
 ?>
 
-<form action="<?= $escaper->escapeUrl($addToCartUrl) ?>" method="post">
-    <div class="addtocart-product-info">
-        <div class="qty-container">
-            <button type="button" class="qty-btn" id="sub" data-bind="click: function() { subtract(); }">-</button>
-            <input type="number" min="1" max="<?= $escaper->escapeHtmlAttr($qty) ?>" value="1" class="qty-input" id="qty" name="qty">
-            <button type="button" class="qty-btn" id="add" data-bind="click: function() { add(); }">+</button>
-        </div>
-        <div class="product-stock">
-            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24">
-                <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" fill="#575757"/>
-            </svg>
-            <div class="product-stock-info">
-                <?= $qty > 0 ? $escaper->escapeHtml(__("in stock")) : $escaper->escapeHtml(__("out of stock")) ?>
+<div class="product-add-form">
+    <form data-role="tocart-form"
+          data-product-sku="<?= $escaper->escapeHtmlAttr($sku) ?>"
+          action="<?= $escaper->escapeUrl($addToCartUrl) ?>"
+          method="post"
+          class="add-to-cart-form">
+        <?= $block->getBlockHtml('formkey') ?>
+        <input type="hidden" name="product" value="<?= (int)$product->getId() ?>">
+        <div class="addtocart-product-info">
+            <div class="qty-container" data-bind="scope: 'qtyCounter'">
+                <button type="button" class="qty-btn" id="sub" data-bind="click: decrease">-</button>
+                <input type="number" min="1" max="<?= $escaper->escapeHtmlAttr($qty) ?>" data-bind="value: qty, event: { change: validateQty }" class="qty-input" id="qty" name="qty">
+                <button type="button" class="qty-btn" id="add" data-bind="click: increase">+</button>
             </div>
-            <?php if (($qty ?? 0) > 0): ?>
-                <div class="product-stock-qty"><?= $escaper->escapeHtml(__('%1 items available', $qty)) ?></div>
-            <?php endif; ?>
+            <div class="product-stock">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="11"
+                     height="11"
+                     viewBox="0 0 24 24"
+                     aria-hidden="true">
+                    <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"
+                          fill="#575757"/>
+                </svg>
+                <div class="product-stock-info">
+                    <?= $qty > 0
+                        ? $escaper->escapeHtml(__('In Stock'))
+                        : $escaper->escapeHtml(__('Out of Stock'))
+                    ?>
+                </div>
+                <?php if (($qty ?? 0) > 0): ?>
+                    <div class="product-stock-qty">
+                        <?= $escaper->escapeHtml(__('%1 items available', $qty)) ?>
+                    </div>
+                <?php endif; ?>
+            </div>
         </div>
-    </div>
-    <button type="submit" class="addtocart-btn">
-        <?= $escaper->escapeHtml(__('Add to Cart')) ?>
-    </button>
-</form>
+        <button type="submit"
+                title="<?= $escaper->escapeHtmlAttr(__('Add to Cart')) ?>"
+                class="addtocart-btn"
+            <?= $qty <= 0 ? 'disabled' : '' ?>>
+            <span><?= $escaper->escapeHtml(__('Add to Cart')) ?></span>
+        </button>
+    </form>
+</div>
 
 <script type="text/x-magento-init">
     {
@@ -50,10 +69,20 @@ $sku = $product->getSku();
             "Magento_Ui/js/core/app": {
                 "components": {
                     "qtyCounter": {
-                        "component": "Magento_Catalog/js/qty-counter"
+                        "component": "Magento_Catalog/js/qty-counter",
+                        "config": {
+                            "maxQty": <?= (float)$qty ?>,
+                            "initialQty": 1
+                        }
                     }
                 }
             }
         }
     }
 </script>
+
+
+
+
+
+
