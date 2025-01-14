@@ -1,0 +1,39 @@
+& when (@media-common = true) {
+    .faq-container {
+        margin: 20px auto;
+
+        .faq-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .faq-item {
+            margin-bottom: 10px;
+        }
+
+        .faq-toggle {
+            display: none;
+
+            &:checked {
+                & ~ .faq-answer {
+                    display: block;
+                }
+            }
+        }
+
+        .faq-question {
+            display: block;
+            padding: 10px;
+            background-color: #f0f0f0;
+            cursor: pointer;
+            margin-bottom: 0;
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 10px;
+            border: 1px solid #f0f0f0;
+        }
+    }
+}
