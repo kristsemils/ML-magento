@@ -13,7 +13,6 @@ use Magebit\Faq\Model\ResourceModel\Question as QuestionResource;
 
 /**
  * Question model class
- *
  * This class represents a FAQ question in the system and provides methods to get and set its properties.
  */
 class Question extends AbstractModel implements QuestionInterface
