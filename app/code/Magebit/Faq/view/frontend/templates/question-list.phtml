@@ -1,0 +1,43 @@
+<?php
+/**
+ * @copyright Copyright (c) 2024 Magebit
+ * @author    Magebit
+ * @license   GNU General Public License ("GPL") v3.0
+ */
+declare(strict_types=1);
+
+use Magebit\Faq\Block\QuestionList;
+use Magento\Framework\Escaper;
+
+/**
+ * @var QuestionList $block
+ * @var Escaper $escaper
+ */
+
+?>
+<div class="faq-container">
+    <h1><?= $escaper->escapeHtml(__('Frequently Asked Questions')) ?></h1>
+    <?php $questions = $block->getQuestions(); ?>
+    <?php if (!empty($questions)): ?>
+        <ul class="faq-list">
+            <?php foreach ($questions as $question): ?>
+                <li class="faq-item">
+                    <input type="checkbox"
+                           id="faq-<?= $escaper->escapeHtmlAttr($question->getId()) ?>"
+                           class="faq-toggle">
+                    <label class="faq-question"
+                           for="faq-<?= $escaper->escapeHtmlAttr($question->getId()) ?>">
+                        <?= $escaper->escapeHtml($question->getQuestion()) ?>
+                    </label>
+                    <div class="faq-answer">
+                        <?= $escaper->escapeHtml($question->getAnswer()) ?>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else: ?>
+        <div class="message info empty">
+            <div><?= $escaper->escapeHtml(__('No FAQ items available.')) ?></div>
+        </div>
+    <?php endif; ?>
+</div>
