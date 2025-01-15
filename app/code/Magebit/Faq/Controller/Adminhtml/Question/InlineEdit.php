@@ -4,6 +4,7 @@
  * @author    Magebit
  * @license   GNU General Public License ("GPL") v3.0
  */
+declare(strict_types=1);
 
 namespace Magebit\Faq\Controller\Adminhtml\Question;
 
@@ -63,11 +64,6 @@ class InlineEdit extends Action
                 }
 
                 $this->questionRepository->save($question);
-            } catch (LocalizedException $e) {
-                return $result->setData([
-                    'messages' => [$e->getMessage()],
-                    'error' => true,
-                ]);
             } catch (Exception $e) {
                 return $result->setData([
                     'messages' => [__('Something went wrong while saving the FAQ.')],

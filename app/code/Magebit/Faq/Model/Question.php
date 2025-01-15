@@ -1,9 +1,5 @@
 <?php
-/**
- * @copyright Copyright (c) 2024 Magebit
- * @author    Magebit
- * @license   GNU General Public License ("GPL") v3.0
- */
+declare(strict_types=1);
 
 namespace Magebit\Faq\Model;
 
@@ -11,27 +7,8 @@ use Magento\Framework\Model\AbstractModel;
 use Magebit\Faq\Api\Data\QuestionInterface;
 use Magebit\Faq\Model\ResourceModel\Question as QuestionResource;
 
-/**
- * Question model class
- * This class represents a FAQ question in the system and provides methods to get and set its properties.
- */
 class Question extends AbstractModel implements QuestionInterface
 {
-    /**
-     * Constants for column names
-     */
-    const ID = 'id';
-    const QUESTION = 'question';
-    const ANSWER = 'answer';
-    const STATUS = 'status';
-    const POSITION = 'position';
-    const UPDATED_AT = 'updated_at';
-
-    /**
-     * Initialize resource model
-     *
-     * @return void
-     */
     protected function _construct(): void
     {
         $this->_init(QuestionResource::class);
@@ -42,30 +19,29 @@ class Question extends AbstractModel implements QuestionInterface
      *
      * @return int|null
      */
-    public function getId()
+    public function getId(): ?int
     {
-        return $this->getData(self::ID);
+        $id = $this->getData(self::ID);
+        return $id !== null ? (int)$id : null;
     }
 
     /**
-     * Set ID
-     *
-     * @param int $id
-     * @return Question|AbstractModel
+     * @param $id
+     * @return Question
      */
-    public function setId($id): Question|AbstractModel
+    public function setId($id): Question
     {
-        return $this->setData(self::ID, $id);
+        return $this->setData(self::ID, (int)$id);
     }
 
     /**
      * Get question text
      *
-     * @return string|null
+     * @return string
      */
-    public function getQuestion()
+    public function getQuestion(): string
     {
-        return $this->getData(self::QUESTION);
+        return (string)$this->getData(self::QUESTION);
     }
 
     /**
@@ -74,7 +50,7 @@ class Question extends AbstractModel implements QuestionInterface
      * @param string $question
      * @return Question|QuestionInterface
      */
-    public function setQuestion($question): Question|QuestionInterface
+    public function setQuestion(string $question): Question|QuestionInterface
     {
         return $this->setData(self::QUESTION, $question);
     }
@@ -82,11 +58,11 @@ class Question extends AbstractModel implements QuestionInterface
     /**
      * Get answer text
      *
-     * @return string|null
+     * @return string
      */
-    public function getAnswer()
+    public function getAnswer(): string
     {
-        return $this->getData(self::ANSWER);
+        return (string)$this->getData(self::ANSWER);
     }
 
     /**
@@ -95,7 +71,7 @@ class Question extends AbstractModel implements QuestionInterface
      * @param string $answer
      * @return Question|QuestionInterface
      */
-    public function setAnswer($answer): Question|QuestionInterface
+    public function setAnswer(string $answer): Question|QuestionInterface
     {
         return $this->setData(self::ANSWER, $answer);
     }
@@ -103,11 +79,11 @@ class Question extends AbstractModel implements QuestionInterface
     /**
      * Get status
      *
-     * @return int|null
+     * @return int
      */
-    public function getStatus()
+    public function getStatus(): int
     {
-        return $this->getData(self::STATUS);
+        return (int)$this->getData(self::STATUS);
     }
 
     /**
@@ -116,7 +92,7 @@ class Question extends AbstractModel implements QuestionInterface
      * @param int $status
      * @return Question|QuestionInterface
      */
-    public function setStatus($status): Question|QuestionInterface
+    public function setStatus(int $status): Question|QuestionInterface
     {
         return $this->setData(self::STATUS, $status);
     }
@@ -124,11 +100,11 @@ class Question extends AbstractModel implements QuestionInterface
     /**
      * Get position
      *
-     * @return int|null
+     * @return int
      */
-    public function getPosition()
+    public function getPosition(): int
     {
-        return $this->getData(self::POSITION);
+        return (int)$this->getData(self::POSITION);
     }
 
     /**
@@ -137,7 +113,7 @@ class Question extends AbstractModel implements QuestionInterface
      * @param int $position
      * @return Question|QuestionInterface
      */
-    public function setPosition($position): Question|QuestionInterface
+    public function setPosition(int $position): Question|QuestionInterface
     {
         return $this->setData(self::POSITION, $position);
     }
@@ -145,11 +121,11 @@ class Question extends AbstractModel implements QuestionInterface
     /**
      * Get updated at timestamp
      *
-     * @return string|null
+     * @return string
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): string
     {
-        return $this->getData(self::UPDATED_AT);
+        return (string)$this->getData(self::UPDATED_AT);
     }
 
     /**
@@ -158,7 +134,7 @@ class Question extends AbstractModel implements QuestionInterface
      * @param string $updatedAt
      * @return Question
      */
-    public function setUpdatedAt($updatedAt): Question
+    public function setUpdatedAt(string $updatedAt): Question
     {
         return $this->setData(self::UPDATED_AT, $updatedAt);
     }

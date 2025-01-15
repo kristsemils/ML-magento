@@ -4,6 +4,7 @@
  * @author    Magebit
  * @license   GNU General Public License ("GPL") v3.0
  */
+declare(strict_types=1);
 
 namespace Magebit\Faq\Controller\Adminhtml\Question;
 
@@ -14,11 +15,6 @@ use Magento\Framework\View\Result\PageFactory;
 
 class Index extends Action
 {
-    /**
-     * Authorization level of a basic admin session
-     */
-    const string ADMIN_RESOURCE = 'Magebit_Faq::faq_form';
-
     /**
      * Constructor
      *

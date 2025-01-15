@@ -8,6 +8,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
-        <add id="Magebit_Faq::faq" title="Frequently Asked Questions" module="Magebit_Faq" sortOrder="100" parent="Magento_Backend::content_elements" action="magebit_faq/question/index" resource="Magebit_Faq::faq"/>
+        <add id="Magebit_Faq::faq" title="Frequently Asked Questions" module="Magebit_Faq" sortOrder="100"
+             parent="Magento_Backend::content_elements" action="magebit_faq/question/index" resource="Magebit_Faq::faq"/>
     </menu>
 </config>

@@ -4,6 +4,7 @@
  * @author    Magebit
  * @license   GNU General Public License ("GPL") v3.0
  */
+declare(strict_types=1);
 
 namespace Magebit\Faq\Controller\Adminhtml\Question;
 
@@ -34,15 +35,5 @@ class NewAction extends Action
     {
         $resultForward = $this->resultForwardFactory->create();
         return $resultForward->forward('edit');
-    }
-
-    /**
-     * Check if the user is allowed to access this action
-     *
-     * @return bool
-     */
-    protected function _isAllowed(): bool
-    {
-        return $this->_authorization->isAllowed('Magebit_Faq::faq');
     }
 }

@@ -4,6 +4,7 @@
  * @author    Magebit
  * @license   GNU General Public License ("GPL") v3.0
  */
+declare(strict_types=1);
 
 namespace Magebit\Faq\Model;
 
@@ -33,9 +34,8 @@ class QuestionManagement implements QuestionManagementInterface
      *
      * @param int $id
      * @return bool
-     * @throws NoSuchEntityException
      */
-    public function enableQuestion($id): bool
+    public function enableQuestion(int $id): bool
     {
         $question = $this->questionRepository->get($id);
         $question->setStatus(1);
@@ -48,9 +48,8 @@ class QuestionManagement implements QuestionManagementInterface
      *
      * @param int $id
      * @return bool
-     * @throws NoSuchEntityException
      */
-    public function disableQuestion($id): bool
+    public function disableQuestion(int $id): bool
     {
         $question = $this->questionRepository->get($id);
         $question->setStatus(0);

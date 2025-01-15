@@ -17,9 +17,6 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Ui\DataProvider\Modifier\PoolInterface;
 use Magento\Ui\DataProvider\ModifierPoolDataProvider;
 
-/**
- *
- */
 class DataProvider extends ModifierPoolDataProvider
 {
     /**

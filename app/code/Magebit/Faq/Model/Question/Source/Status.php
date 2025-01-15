@@ -4,7 +4,7 @@
  * @author    Magebit
  * @license   GNU General Public License ("GPL") v3.0
  */
-
+declare(strict_types=1);
 
 namespace Magebit\Faq\Model\Question\Source;
 
@@ -12,15 +12,15 @@ use Magento\Framework\Data\OptionSourceInterface;
 
 class Status implements OptionSourceInterface
 {
-    const STATUS_ENABLED = 1;
-    const STATUS_DISABLED = 0;
+    public const STATUS_ENABLED = 1;
+    public const STATUS_DISABLED = 0;
 
     /**
      * Get available status options
      *
      * @return array
      */
-    public function toOptionArray()
+    public function toOptionArray(): array
     {
         return [
             ['value' => self::STATUS_ENABLED, 'label' => __('Enabled')],
@@ -33,7 +33,7 @@ class Status implements OptionSourceInterface
      *
      * @return array
      */
-    public function getOptionsArray()
+    public function getOptionsArray(): array
     {
         return [
             self::STATUS_ENABLED => __('Enabled'),

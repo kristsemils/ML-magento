@@ -4,6 +4,7 @@
  * @author    Magebit
  * @license   GNU General Public License ("GPL") v3.0
  */
+declare(strict_types=1);
 
 namespace Magebit\Faq\Controller\Adminhtml\Question;
 
@@ -20,11 +21,6 @@ use Magebit\Faq\Api\QuestionRepositoryInterface;
 
 class MassDelete extends Action implements HttpPostActionInterface
 {
-    /**
-     * Authorization level
-     */
-    const string ADMIN_RESOURCE = 'Magebit_Faq::faq';
-
     /**
      * Constructor
      *

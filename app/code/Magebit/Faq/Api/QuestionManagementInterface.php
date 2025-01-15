@@ -4,6 +4,7 @@
  * @author    Magebit
  * @license   GNU General Public License ("GPL") v3.0
  */
+declare(strict_types=1);
 
 namespace Magebit\Faq\Api;
 
@@ -15,7 +16,7 @@ interface QuestionManagementInterface
      * @param int $id
      * @return bool
      */
-    public function enableQuestion($id): bool;
+    public function enableQuestion(int $id): bool;
 
     /**
      * Disable question by id
@@ -23,6 +24,6 @@ interface QuestionManagementInterface
      * @param int $id
      * @return bool
      */
-    public function disableQuestion($id): bool;
+    public function disableQuestion(int $id): bool;
 }
 

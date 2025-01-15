@@ -1,28 +1,30 @@
 <?php
+declare(strict_types=1);
+
 namespace Magebit\Faq\Api\Data;
 
 interface QuestionInterface
 {
-    const ID = 'id';
-    const QUESTION = 'question';
-    const ANSWER = 'answer';
-    const STATUS = 'status';
-    const POSITION = 'position';
-    const UPDATED_AT = 'updated_at';
+    public const ID = 'id';
+    public const QUESTION = 'question';
+    public const ANSWER = 'answer';
+    public const STATUS = 'status';
+    public const POSITION = 'position';
+    public const UPDATED_AT = 'updated_at';
 
     /**
      * Get ID
      *
      * @return int|null
      */
-    public function getId();
+    public function getId(): ?int;
 
     /**
      * Get question
      *
-     * @return string|null
+     * @return string
      */
-    public function getQuestion();
+    public function getQuestion(): string;
 
     /**
      * Set question
@@ -30,14 +32,14 @@ interface QuestionInterface
      * @param string $question
      * @return $this
      */
-    public function setQuestion($question);
+    public function setQuestion(string $question): self;
 
     /**
      * Get answer
      *
-     * @return string|null
+     * @return string
      */
-    public function getAnswer();
+    public function getAnswer(): string;
 
     /**
      * Set answer
@@ -45,14 +47,14 @@ interface QuestionInterface
      * @param string $answer
      * @return $this
      */
-    public function setAnswer($answer);
+    public function setAnswer(string $answer): self;
 
     /**
      * Get status
      *
-     * @return int|null
+     * @return int
      */
-    public function getStatus();
+    public function getStatus(): int;
 
     /**
      * Set status
@@ -60,14 +62,14 @@ interface QuestionInterface
      * @param int $status
      * @return $this
      */
-    public function setStatus($status);
+    public function setStatus(int $status): self;
 
     /**
      * Get position
      *
-     * @return int|null
+     * @return int
      */
-    public function getPosition();
+    public function getPosition(): int;
 
     /**
      * Set position
@@ -75,13 +77,20 @@ interface QuestionInterface
      * @param int $position
      * @return $this
      */
-    public function setPosition($position);
+    public function setPosition(int $position): self;
 
     /**
      * Get updated at
      *
-     * @return string|null
+     * @return string
      */
-    public function getUpdatedAt();
-}
+    public function getUpdatedAt(): string;
 
+    /**
+     * Set updated at
+     *
+     * @param string $updatedAt
+     * @return $this
+     */
+    public function setUpdatedAt(string $updatedAt): self;
+}

@@ -1,4 +1,11 @@
 <?php
+/**
+ * @copyright Copyright (c) 2024 Magebit
+ * @author    Magebit
+ * @license   GNU General Public License ("GPL") v3.0
+ */
+declare(strict_types=1);
+
 namespace Magebit\Faq\Api\Data;
 
 use Magento\Framework\Api\SearchResultsInterface;
@@ -10,7 +17,7 @@ interface QuestionSearchResultsInterface extends SearchResultsInterface
      *
      * @return QuestionInterface[]
      */
-    public function getItems();
+    public function getItems(): array;
 
     /**
      * Set questions list.
@@ -18,6 +25,6 @@ interface QuestionSearchResultsInterface extends SearchResultsInterface
      * @param QuestionInterface[] $items
      * @return $this
      */
-    public function setItems(array $items);
+    public function setItems(array $items): self;
 }
 

@@ -4,6 +4,7 @@
  * @author    Magebit
  * @license   GNU General Public License ("GPL") v3.0
  */
+declare(strict_types=1);
 
 namespace Magebit\Faq\Controller\Adminhtml\Question;
 
@@ -52,7 +53,7 @@ class MassDisable extends Action implements HttpPostActionInterface
     public function execute(): Redirect
     {
         if (!$this->getRequest()->isPost()) {
-            throw new NotFoundException(__('Page not found'));
+            $this->messageManager->addErrorMessage(__('Please correct the request parameters.'));
         }
 
         $collection = $this->filter->getCollection($this->collectionFactory->create());
